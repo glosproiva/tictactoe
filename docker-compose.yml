@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  frontend:
+    restart: always
+    container_name: frontend
+    build:
+     context: ./frontend
+    ports:
+      - "32120:8081"
+      - "32121:80"
+    volumes:
+      - ./frontend/src:/usr/share/nginx/html
+      - ./frontend/nginx/logs:/var/log/nginx/
+  api_backend:
+    restart: always
+    container_name: api_backend
+    build:
+        context: ./api
+    ports:
+      - "25670:25670"
+    volumes:
+      - ./api/src/game.db:/app/game.db
+    links:
+      - frontend:frontend
